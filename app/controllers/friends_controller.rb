@@ -1,5 +1,7 @@
 class FriendsController < ApplicationController
-  before_action :set_friend, only: %i[ show edit update destroy ]
+  before_action :set_friend, only: %i[ show]
+  before_action :authenticate_user!, except: %i[index]
+  before_action :validate_friend_owner!, only: %i[edit update destroy]
 
   # GET /friends or /friends.json
   def index
@@ -66,5 +68,11 @@ class FriendsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def friend_params
       params.require(:friend).permit(:first_name, :last_name, :email, :phone, :twitter, :user_id)
+    end
+
+    #check if friend belongs to a user
+    def validate_friend_owner!
+      @friend=current_user.friends.find_by(id: params[:id])
+      redirect_to friends_path, notice: "You cannot modify this user, This does not belong to you" unless @friend
     end
 end

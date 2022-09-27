@@ -5,11 +5,13 @@
 <table id="friends" class="table table-dark table-striped">
   <tr >
     <th>First name</th>
-    <th>Last  name</th>
+    <th>Last name</th>
     <th>Email</th>
     <th>Phone</th>
     <th>Twitter</th>
     <th>Detail</th>
+    <th>Update</th>
+    <th>Delete</th>
   </tr>
   <% @friends.each do |friend| %>
   <tr id="<%= dom_id friend %>">
@@ -17,6 +19,11 @@
     <td>
       <%= link_to "Show this friend", friend, class: "btn btn-info" %>
     </td>
+    <td>
+      <%= link_to "Update", edit_friend_path(friend), class: "btn btn-info", method: :post %>
+    </td>
+  <td>
+<%= button_to "Delete my account", friend_path(friend), method: :delete %>  </td>
   <% end %>
   </tr>
 </table>
